@@ -2,9 +2,9 @@
 
 namespace DependencyServiceExtended
 {
-    public interface IConfigurable
+    public interface IConfigurable<T>
     {
-        IConfigurable AddRule(IRule rule);
-        IConfigurable AddDecorator<TImp>() where TImp : class;
+        IConfigurable<T> AddRule(IRule rule);
+        IConfigurable<T> AddDecorator<TImp>() where TImp : class, T;
     }
 }

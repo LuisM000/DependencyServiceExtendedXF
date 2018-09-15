@@ -17,7 +17,7 @@ namespace DependencyServiceExtended
             decoratorResolver = new DecoratorResolver(this);
         }
 
-        public IConfigurable Register<T, TImpl>()
+        public IConfigurable<T> Register<T, TImpl>()
             where T : class
             where TImpl : class, T
         {
@@ -25,21 +25,21 @@ namespace DependencyServiceExtended
             return new Configurable<T>(this);
         }
 
-        public IConfigurable Register<T>() where T : class
+        public IConfigurable<T> Register<T>() where T : class
         {
             DependencyService.Register<T>();
             return new Configurable<T>(this);
         }
 
-        public IConfigurable AddRule<T>(IRule rule) where T : class
+        public IConfigurable<T> AddRule<T>(IRule rule) where T : class
         {
             rulesContainer.AddRule<T>(rule);
             return new Configurable<T>(this);
         }
 
-        public IConfigurable AddDecorator<T, TImpl>()
+        public IConfigurable<T> AddDecorator<T, TImpl>()
             where T : class
-            where TImpl : class//, T
+            where TImpl : class, T
         {
             decoratorResolver.AddDecorator<T, TImpl>();
             return new Configurable<T>(this);

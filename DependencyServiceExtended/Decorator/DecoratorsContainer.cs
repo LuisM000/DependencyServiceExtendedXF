@@ -4,7 +4,7 @@ using DependencyServiceExtended.Enums;
 
 namespace DependencyServiceExtended.Decorator
 {
-    public class Decorators
+    public class DecoratorsContainer
     {
         private readonly Dictionary<Type, List<Type>> decorators = new Dictionary<Type, List<Type>>();
         private readonly Dictionary<Type, object> globalDecorateInstances = new Dictionary<Type, object>();

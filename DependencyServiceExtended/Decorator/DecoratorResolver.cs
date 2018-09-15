@@ -6,21 +6,21 @@ namespace DependencyServiceExtended.Decorator
     {
         private readonly Container container;
 
-        private readonly Decorators decorators = new Decorators();
+        private readonly DecoratorsContainer decoratorsContainer = new DecoratorsContainer();
 
         public DecoratorResolver(Container container)
         {
             this.container = container;
         }
 
-        public void AddDecorator<T, TImpl>() where T : class where TImpl : class//, T
+        public void AddDecorator<T, TImpl>() where T : class where TImpl : class, T
         {
-            decorators.Add<T, TImpl>();
+            decoratorsContainer.Add<T, TImpl>();
         }
 
         public T DecorateInstance<T>(T instance, DependencyFetchType dependencyFetchType) where T : class
         {
-            return decorators.Decorate(container, instance, dependencyFetchType);
+            return decoratorsContainer.Decorate(container, instance, dependencyFetchType);
         }
     }
 }

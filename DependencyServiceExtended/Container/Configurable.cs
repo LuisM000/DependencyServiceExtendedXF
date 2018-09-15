@@ -2,7 +2,7 @@
 
 namespace DependencyServiceExtended
 {
-    internal class Configurable<T> : IConfigurable where T : class
+    internal class Configurable<T> : IConfigurable<T> where T : class
     {
         private readonly IContainer container;
 
@@ -10,13 +10,13 @@ namespace DependencyServiceExtended
         {
             this.container = container;
         }
-        public IConfigurable AddRule(IRule rule)
+        public IConfigurable<T> AddRule(IRule rule)
         {
             container.AddRule<T>(rule);
             return this;
         }
 
-        public IConfigurable AddDecorator<TImp>() where TImp : class
+        public IConfigurable<T> AddDecorator<TImp>() where TImp : class, T
         {
             container.AddDecorator<T, TImp>();
             return this;

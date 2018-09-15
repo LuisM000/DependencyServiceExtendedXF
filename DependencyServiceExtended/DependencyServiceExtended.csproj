@@ -40,7 +40,7 @@
     <Compile Include="Container\IConfigurable.cs" />
     <Compile Include="Container\IContainer.cs" />
     <Compile Include="Decorator\DecoratorResolver.cs" />
-    <Compile Include="Decorator\Decorators.cs" />
+    <Compile Include="Decorator\DecoratorsContainer.cs" />
     <Compile Include="Enums\DependencyFetchType.cs" />
     <Compile Include="Exceptions\RuleException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
