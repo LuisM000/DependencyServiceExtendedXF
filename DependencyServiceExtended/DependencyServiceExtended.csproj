@@ -41,6 +41,7 @@
     <Compile Include="Container\IContainer.cs" />
     <Compile Include="Decorator\DecoratorResolver.cs" />
     <Compile Include="Decorator\DecoratorsContainer.cs" />
+    <Compile Include="DependencyServiceExtended.cs" />
     <Compile Include="Enums\DependencyFetchType.cs" />
     <Compile Include="Exceptions\RuleException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
