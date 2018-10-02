@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="ContainerShould.cs" />
     <Compile Include="DecoratorShould.cs" />
+    <Compile Include="DecoratorWithAttributeShould.cs" />
     <Compile Include="DependencyFetchRuleShould.cs" />
     <Compile Include="Factories\Containers.cs" />
     <Compile Include="Mocks\MockForms.cs" />
@@ -103,10 +104,12 @@
     <Compile Include="RuleShould.cs" />
     <Compile Include="Utils\IService1.cs" />
     <Compile Include="Utils\IService2.cs" />
+    <Compile Include="Utils\IService3.cs" />
     <Compile Include="Utils\OtherService1Decorator.cs" />
     <Compile Include="Utils\Service1.cs" />
     <Compile Include="Utils\Service1Decorator.cs" />
     <Compile Include="Utils\Service2.cs" />
+    <Compile Include="Utils\Service3DecoratorWithAttribute.cs" />
     <Compile Include="XamarinFormsFixture.cs" />
   </ItemGroup>
   <ItemGroup>

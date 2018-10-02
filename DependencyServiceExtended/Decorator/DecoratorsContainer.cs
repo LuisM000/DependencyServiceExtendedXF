@@ -9,16 +9,19 @@ namespace DependencyServiceExtended.Decorator
         private readonly Dictionary<Type, List<Type>> decorators = new Dictionary<Type, List<Type>>();
         private readonly Dictionary<Type, object> globalDecorateInstances = new Dictionary<Type, object>();
 
-        public void Add<T, TImpl>()
+        public void Add(Type decoratorType, Type decoratedType)
         {
-            Type TType = typeof(T);
-            Type TImplType = typeof(TImpl);
-            if (!decorators.ContainsKey(TType))
+            if (!decorators.ContainsKey(decoratorType))
             {
-                decorators.Add(TType, new List<Type>());
+                decorators.Add(decoratorType, new List<Type>());
             }
 
-            decorators[TType].Add(TImplType);
+            decorators[decoratorType].Add(decoratedType);
+        }
+
+        public void Add<T, TImpl>()
+        {
+            Add(typeof(T), typeof(TImpl));
         }
 
         public T Decorate<T>(Container container, T instance, DependencyFetchType dependencyFetchType) where T : class

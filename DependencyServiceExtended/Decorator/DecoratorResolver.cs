@@ -1,4 +1,5 @@
-﻿using DependencyServiceExtended.Enums;
+﻿using System;
+using DependencyServiceExtended.Enums;
 
 namespace DependencyServiceExtended.Decorator
 {
@@ -17,6 +18,12 @@ namespace DependencyServiceExtended.Decorator
         {
             decoratorsContainer.Add<T, TImpl>();
         }
+
+        public void AddDecorator(Type decoratedType, Type decoratorType)
+        {
+            decoratorsContainer.Add(decoratedType, decoratorType);
+        }
+
 
         public T DecorateInstance<T>(T instance, DependencyFetchType dependencyFetchType) where T : class
         {

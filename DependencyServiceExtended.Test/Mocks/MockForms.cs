@@ -120,7 +120,7 @@ namespace DependencyServiceExtended.Test.Mocks
 
             public Assembly[] GetAssemblies()
             {
-                return new Assembly[0];
+                return AppDomain.CurrentDomain.GetAssemblies();
             }
 
             public IIsolatedStorageFile GetUserStoreForApplication()

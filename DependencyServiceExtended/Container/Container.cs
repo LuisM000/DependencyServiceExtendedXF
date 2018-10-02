@@ -1,4 +1,8 @@
-﻿using DependencyServiceExtended.Decorator;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using DependencyServiceExtended.Attributes;
+using DependencyServiceExtended.Decorator;
 using DependencyServiceExtended.Enums;
 using DependencyServiceExtended.Rebindable;
 using DependencyServiceExtended.Rules;
@@ -8,6 +12,8 @@ namespace DependencyServiceExtended
 {
     public class Container : IContainer
     {
+        private bool hasBeenInitialized;
+
         private readonly RulesContainer rulesContainer = new RulesContainer();
         internal readonly RebindableInstances rebindableInstances = new RebindableInstances();
         private readonly DecoratorResolver decoratorResolver;
@@ -47,10 +53,11 @@ namespace DependencyServiceExtended
 
         public T Get<T>(DependencyFetchType dependencyFetchType) where T : class
         {
+            Initialize();
+
             rulesContainer.ExecuteRules<T>(dependencyFetchType);
 
             T instance = null;
-
             switch (dependencyFetchType)
             {
                 case DependencyFetchType.GlobalInstance:
@@ -72,6 +79,40 @@ namespace DependencyServiceExtended
         public void Rebind()
         {
             rebindableInstances.Rebind();
+        }
+
+
+        private void Initialize()
+        {
+            if(hasBeenInitialized)
+                return;
+
+            RegisterDecoratorsFromAssemblies();
+
+            hasBeenInitialized = true;
+        }
+
+        private void RegisterDecoratorsFromAssemblies()
+        {
+            var assemblies = typeof(Device).GetRuntimeMethod("GetAssemblies", new Type[0]).Invoke(null, null) as Assembly[];
+            if(assemblies==null)
+                return;
+
+            Type targetAttrType = typeof(DependencyDecoratorAttribute);
+
+            foreach (Assembly assembly in assemblies)
+            {
+                Attribute[] attributes;
+
+                attributes = assembly.GetCustomAttributes(targetAttrType).ToArray();
+                if(attributes.Length == 0)
+                    continue;
+
+                foreach (DependencyDecoratorAttribute attribute in attributes)
+                {
+                    decoratorResolver.AddDecorator(attribute.DecoratedType, attribute.DecoratorType);
+                }
+            }
         }
     }
 }

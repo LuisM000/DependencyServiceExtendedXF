@@ -8,7 +8,7 @@ namespace DependencyServiceExtended.Test
     public class DecoratorShould : IClassFixture<XamarinFormsFixture>
     {
         [Fact]
-        public void ReturnsTypeOfLastDecoratedAdded()
+        public void ReturnsTypeOfLastDecoratorAdded()
         {
             var container = Containers.ContainerWithRegisteredServices();
             container.AddDecorator<IService1, Service1Decorator>();
@@ -18,6 +18,7 @@ namespace DependencyServiceExtended.Test
 
             Assert.IsType<OtherService1Decorator>(service1Decorated);
         }
+
 
         [Fact]
         public void CreatesDecoratedInstancesWithCorrectInnerType()
