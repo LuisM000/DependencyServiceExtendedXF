@@ -1,4 +1,5 @@
 ﻿using System;
+using DependencyServiceExtended.Attributes;
 using DependencyServiceExtended.Enums;
 
 namespace DependencyServiceExtended.Decorator
@@ -19,9 +20,10 @@ namespace DependencyServiceExtended.Decorator
             decoratorsContainer.Add<T, TImpl>();
         }
 
-        public void AddDecorator(Type decoratedType, Type decoratorType)
+        public void AddDecorator(DependencyDecoratorAttribute decoratorAttribute)
         {
-            decoratorsContainer.Add(decoratedType, decoratorType);
+            decoratorsContainer.Add(decoratorAttribute.DecoratedType,
+                            decoratorAttribute.DecoratorType, decoratorAttribute.Order);
         }
 
 

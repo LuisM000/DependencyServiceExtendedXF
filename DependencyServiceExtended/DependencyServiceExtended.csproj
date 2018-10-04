@@ -40,6 +40,7 @@
     <Compile Include="Container\Container.cs" />
     <Compile Include="Container\IConfigurable.cs" />
     <Compile Include="Container\IContainer.cs" />
+    <Compile Include="Decorator\DecoratorImplementationProperties.cs" />
     <Compile Include="Decorator\DecoratorResolver.cs" />
     <Compile Include="Decorator\DecoratorsContainer.cs" />
     <Compile Include="DependencyServiceExtended.cs" />

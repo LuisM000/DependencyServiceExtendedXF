@@ -11,11 +11,18 @@ namespace DependencyServiceExtended.Attributes
     {
         internal Type DecoratedType { get; }
         internal Type DecoratorType { get; }
+        public int Order { get; }
 
         public DependencyDecoratorAttribute(Type decoratedType, Type decoratorType)
+            :this(decoratedType, decoratorType,1)
+        {
+        }
+
+        public DependencyDecoratorAttribute(Type decoratedType, Type decoratorType, int order)
         {
             this.DecoratedType = decoratedType;
             this.DecoratorType = decoratorType;
+            Order = order;
         }
 
     }

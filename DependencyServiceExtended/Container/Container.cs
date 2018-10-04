@@ -110,7 +110,7 @@ namespace DependencyServiceExtended
 
                 foreach (DependencyDecoratorAttribute attribute in attributes)
                 {
-                    decoratorResolver.AddDecorator(attribute.DecoratedType, attribute.DecoratorType);
+                    decoratorResolver.AddDecorator(attribute);
                 }
             }
         }

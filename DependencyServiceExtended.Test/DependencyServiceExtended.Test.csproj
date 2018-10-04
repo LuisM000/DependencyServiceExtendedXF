@@ -105,11 +105,14 @@
     <Compile Include="Utils\IService1.cs" />
     <Compile Include="Utils\IService2.cs" />
     <Compile Include="Utils\IService3.cs" />
+    <Compile Include="Utils\IService4.cs" />
     <Compile Include="Utils\OtherService1Decorator.cs" />
     <Compile Include="Utils\Service1.cs" />
     <Compile Include="Utils\Service1Decorator.cs" />
     <Compile Include="Utils\Service2.cs" />
     <Compile Include="Utils\Service3DecoratorWithAttribute.cs" />
+    <Compile Include="Utils\ServiceDecorator4WithAttributeAndOrder2.cs" />
+    <Compile Include="Utils\ServiceDecorator4WithAttributeAndOrder1.cs" />
     <Compile Include="XamarinFormsFixture.cs" />
   </ItemGroup>
   <ItemGroup>

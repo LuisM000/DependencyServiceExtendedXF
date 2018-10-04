@@ -17,9 +17,20 @@ namespace DependencyServiceExtended.Test
         {
             var container = Containers.ContainerWithRegisteredServices();
           
-            var service1Decorated = container.Get<IService3>(DependencyFetchType.GlobalInstance);
+            var serviceDecorated = container.Get<IService3>(DependencyFetchType.GlobalInstance);
 
-            Assert.IsType<Service3DecoratorWithAttribute>(service1Decorated);
+            Assert.IsType<Service3DecoratorWithAttribute>(serviceDecorated);
+        }
+
+        [Fact]
+        public void CreatesDecoratedInstancesWithCorrectInnerTypeBasedOnOrder()
+        {
+            var container = Containers.ContainerWithRegisteredServices();
+
+            ServiceDecorator4WithAttributeAndOrder2 serviceDecorated = 
+                (ServiceDecorator4WithAttributeAndOrder2)container.Get<IService4>(DependencyFetchType.GlobalInstance);
+
+            Assert.IsType<ServiceDecorator4WithAttributeAndOrder1>(serviceDecorated.InnerService);
         }
     }
 }

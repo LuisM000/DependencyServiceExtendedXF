@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DependencyServiceExtended.Enums;
 
 namespace DependencyServiceExtended.Decorator
 {
     public class DecoratorsContainer
     {
-        private readonly Dictionary<Type, List<Type>> decorators = new Dictionary<Type, List<Type>>();
+        private readonly Dictionary<Type, List<DecoratorImplementationProperties>> decorators = new Dictionary<Type, List<DecoratorImplementationProperties>>();
         private readonly Dictionary<Type, object> globalDecorateInstances = new Dictionary<Type, object>();
 
-        public void Add(Type decoratorType, Type decoratedType)
+        public void Add(Type decoratorType, Type decoratedType, int order)
         {
             if (!decorators.ContainsKey(decoratorType))
             {
-                decorators.Add(decoratorType, new List<Type>());
+                decorators.Add(decoratorType, new List<DecoratorImplementationProperties>());
             }
-
-            decorators[decoratorType].Add(decoratedType);
+            decorators[decoratorType].Add(new DecoratorImplementationProperties(decoratedType, order));
+            decorators[decoratorType].Sort((x, y) => x.Order.CompareTo(y.Order));
         }
 
         public void Add<T, TImpl>()
         {
-            Add(typeof(T), typeof(TImpl));
+            Add(typeof(T), typeof(TImpl), 1);
         }
 
         public T Decorate<T>(Container container, T instance, DependencyFetchType dependencyFetchType) where T : class
@@ -34,7 +35,7 @@ namespace DependencyServiceExtended.Decorator
                 {
                     foreach (var decoratorType in decoratorTypes)
                     {
-                        instance = CreateInstance<T>(decoratorType, instance);
+                        instance = CreateInstance<T>(decoratorType.Type, instance);
                     }
                 }
                 else if (dependencyFetchType == DependencyFetchType.GlobalInstance)
@@ -43,7 +44,7 @@ namespace DependencyServiceExtended.Decorator
                     {
                         foreach (var decoratorType in decoratorTypes)
                         {
-                            instance = CreateInstance<T>(decoratorType, instance);
+                            instance = CreateInstance<T>(decoratorType.Type, instance);
                         }
                         globalDecorateInstances.Add(TType, instance);
                     }
@@ -54,8 +55,8 @@ namespace DependencyServiceExtended.Decorator
                 {
                     foreach (var decoratorType in decoratorTypes)
                     {
-                        instance = container.rebindableInstances.GetOrCreate(decoratorType,
-                                        () => CreateInstance<T>(decoratorType, instance));
+                        instance = container.rebindableInstances.GetOrCreate(decoratorType.Type,
+                                        () => CreateInstance<T>(decoratorType.Type, instance));
                     }
                 }
             }
