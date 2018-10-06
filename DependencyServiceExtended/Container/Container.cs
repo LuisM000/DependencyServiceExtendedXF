@@ -17,13 +17,9 @@ namespace DependencyServiceExtended
         private bool hasBeenInitialized;
 
         private readonly RulesContainer rulesContainer = new RulesContainer();
-        internal readonly IInstancesContainer instancesContainer = new InstancesContainer();
+        private readonly IInstancesContainer instancesContainer = new InstancesContainer();
         private readonly DecoratorsContainer decoratorsContainer = new DecoratorsContainer();
         private readonly Dictionary<Type,Type> typeToImplementationType=new Dictionary<Type, Type>();
-
-        public Container()
-        {
-        }
 
         public IConfigurable<T> Register<T, TImpl>()
             where T : class
@@ -35,9 +31,8 @@ namespace DependencyServiceExtended
 
         public IConfigurable<T> Register<T>() where T : class
         {
-            throw new NotImplementedException();
-            //DependencyService.Register<T>();
-            //return new Configurable<T>(this);
+            typeToImplementationType.Add(typeof(T), typeof(T));
+            return new Configurable<T>(this);
         }
 
         public IConfigurable<T> AddRule<T>(IRule rule) where T : class
@@ -102,7 +97,7 @@ namespace DependencyServiceExtended
 
                 foreach (DependencyDecoratorAttribute attribute in attributes)
                 {
-                    decoratorsContainer.Add(attribute.DecoratorType, attribute.DecoratedType, attribute.Order);
+                    decoratorsContainer.Add(attribute.DecoratedType, attribute.DecoratorType, attribute.Order);
                 }
             }
         }

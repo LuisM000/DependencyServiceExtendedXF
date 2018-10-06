@@ -5,8 +5,6 @@ namespace DependencyServiceExtended.Instances
 {
     internal class NewInstance<T> : IInstance<T> where T : class
     {
-        private T instance;
-
         public T Get(IInstanceResolver resolver)
         {
             return resolver.ResolveUsing<T>().Invoke();
@@ -14,7 +12,6 @@ namespace DependencyServiceExtended.Instances
 
         public void Rebind()
         {
-            instance = null;
         }
     }
 }

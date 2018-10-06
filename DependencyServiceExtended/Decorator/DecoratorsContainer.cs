@@ -9,14 +9,14 @@ namespace DependencyServiceExtended.Decorator
     {
         internal readonly Dictionary<Type, List<DecoratorImplementationProperties>> decorators = new Dictionary<Type, List<DecoratorImplementationProperties>>();
 
-        public void Add(Type decoratorType, Type decoratedType, int order)
+        public void Add(Type decoratedType, Type decoratorType, int order)
         {
-            if (!decorators.ContainsKey(decoratorType))
+            if (!decorators.ContainsKey(decoratedType))
             {
-                decorators.Add(decoratorType, new List<DecoratorImplementationProperties>());
+                decorators.Add(decoratedType, new List<DecoratorImplementationProperties>());
             }
-            decorators[decoratorType].Add(new DecoratorImplementationProperties(decoratedType, order));
-            decorators[decoratorType].Sort((x, y) => x.Order.CompareTo(y.Order));
+            decorators[decoratedType].Add(new DecoratorImplementationProperties(decoratorType, order));
+            decorators[decoratedType].Sort((x, y) => x.Order.CompareTo(y.Order));
         }
 
         public void Add<T, TImpl>()

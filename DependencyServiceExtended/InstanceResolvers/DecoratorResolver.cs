@@ -10,37 +10,27 @@ namespace DependencyServiceExtended.InstanceResolvers
 {
     internal class DecoratorResolver : IInstanceResolver
     {
-        private readonly Type originType;
+        private readonly Type decoratedType;
         private readonly IList<DecoratorImplementationProperties> decorators;
 
-        public DecoratorResolver(Type originType, IList<DecoratorImplementationProperties> decorators)
+        public DecoratorResolver(Type decoratedType, IList<DecoratorImplementationProperties> decorators)
         {
-            this.originType = originType;
+            this.decoratedType = decoratedType;
             this.decorators = decorators;
         }
         public Func<T> ResolveUsing<T>() where T : class
         {
-            return () =>
-            {
-                return DecoratorFuncResolver<T>();
-            };
+            return DecoratorFuncResolver<T>;
         }
 
         private T DecoratorFuncResolver<T>() where T : class
         {
-            T instance = (T)Activator.CreateInstance(originType);
-            Type TType = typeof(T);
+            T instance = (T)Activator.CreateInstance(decoratedType);
             foreach (var decorator in decorators)
             {
-                instance = CreateInstance<T>(decorator.Type, instance);
+                instance = (T)Activator.CreateInstance(decorator.Type, instance);
             }
             return instance;
-        }
-
-
-        private T CreateInstance<T>(Type type, params object[] parameters)
-        {
-            return (T)Activator.CreateInstance(type, parameters);
         }
     }
 }
