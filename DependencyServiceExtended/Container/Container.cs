@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DependencyServiceExtended.Attributes;
 using DependencyServiceExtended.Decorator;
 using DependencyServiceExtended.Enums;
-using DependencyServiceExtended.Rebindable;
+using DependencyServiceExtended.InstanceContainers;
+using DependencyServiceExtended.InstanceResolvers;
 using DependencyServiceExtended.Rules;
 using Xamarin.Forms;
 
@@ -15,26 +17,27 @@ namespace DependencyServiceExtended
         private bool hasBeenInitialized;
 
         private readonly RulesContainer rulesContainer = new RulesContainer();
-        internal readonly RebindableInstances rebindableInstances = new RebindableInstances();
-        private readonly DecoratorResolver decoratorResolver;
+        internal readonly IInstancesContainer instancesContainer = new InstancesContainer();
+        private readonly DecoratorsContainer decoratorsContainer = new DecoratorsContainer();
+        private readonly Dictionary<Type,Type> typeToImplementationType=new Dictionary<Type, Type>();
 
         public Container()
         {
-            decoratorResolver = new DecoratorResolver(this);
         }
 
         public IConfigurable<T> Register<T, TImpl>()
             where T : class
             where TImpl : class, T
         {
-            DependencyService.Register<T, TImpl>();
+            typeToImplementationType.Add(typeof(T),typeof(TImpl));
             return new Configurable<T>(this);
         }
 
         public IConfigurable<T> Register<T>() where T : class
         {
-            DependencyService.Register<T>();
-            return new Configurable<T>(this);
+            throw new NotImplementedException();
+            //DependencyService.Register<T>();
+            //return new Configurable<T>(this);
         }
 
         public IConfigurable<T> AddRule<T>(IRule rule) where T : class
@@ -47,7 +50,7 @@ namespace DependencyServiceExtended
             where T : class
             where TImpl : class, T
         {
-            decoratorResolver.AddDecorator<T, TImpl>();
+            decoratorsContainer.Add<T, TImpl>();
             return new Configurable<T>(this);
         }
 
@@ -57,28 +60,17 @@ namespace DependencyServiceExtended
 
             rulesContainer.ExecuteRules<T>(dependencyFetchType);
 
-            T instance = null;
-            switch (dependencyFetchType)
-            {
-                case DependencyFetchType.GlobalInstance:
-                    instance = DependencyService.Get<T>(DependencyFetchTarget.GlobalInstance);
-                    break;
-                case DependencyFetchType.NewInstance:
-                    instance = DependencyService.Get<T>(DependencyFetchTarget.NewInstance);
-                    break;
-                case DependencyFetchType.GlobalRebindableInstance:
-                    instance = rebindableInstances.GetOrCreate<T>();
-                    break;
-            }
+            var instanceResolver = GetInstanceResolver<T>();
 
-            instance = decoratorResolver.DecorateInstance(instance, dependencyFetchType);
+            T instance = instancesContainer.GetOrCreate<T>(dependencyFetchType, instanceResolver);
 
             return instance;
         }
 
+        
         public void Rebind()
         {
-            rebindableInstances.Rebind();
+            instancesContainer.Rebind();
         }
 
 
@@ -110,9 +102,21 @@ namespace DependencyServiceExtended
 
                 foreach (DependencyDecoratorAttribute attribute in attributes)
                 {
-                    decoratorResolver.AddDecorator(attribute);
+                    decoratorsContainer.Add(attribute.DecoratorType, attribute.DecoratedType, attribute.Order);
                 }
             }
         }
+
+        private IInstanceResolver GetInstanceResolver<T>() where T : class
+        {
+            var implementationType = typeToImplementationType[typeof(T)];
+            var decorators = decoratorsContainer.GetDecorators<T>();
+            if (decorators != null)
+            {
+                return new DecoratorResolver(implementationType, decorators);
+            }
+            return new BasicInstanceResolver(implementationType);
+        }
+
     }
 }
