@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using DependencyServiceExtended.Attributes;
 using DependencyServiceExtended.Decorator;
@@ -8,7 +7,6 @@ using DependencyServiceExtended.Enums;
 using DependencyServiceExtended.InstanceContainers;
 using DependencyServiceExtended.InstanceResolvers;
 using DependencyServiceExtended.Rules;
-using Xamarin.Forms;
 
 namespace DependencyServiceExtended
 {
@@ -81,23 +79,18 @@ namespace DependencyServiceExtended
 
         private void RegisterDecoratorsFromAssemblies()
         {
-            var assemblies = typeof(Device).GetRuntimeMethod("GetAssemblies", new Type[0]).Invoke(null, null) as Assembly[];
+            var assemblies = Assemblies.AppDomain.Instance.Assemblies;
             if(assemblies==null)
                 return;
 
-            Type targetAttrType = typeof(DependencyDecoratorAttribute);
-
             foreach (Assembly assembly in assemblies)
             {
-                Attribute[] attributes;
-
-                attributes = assembly.GetCustomAttributes(targetAttrType).ToArray();
-                if(attributes.Length == 0)
-                    continue;
-
-                foreach (DependencyDecoratorAttribute attribute in attributes)
+                foreach (var attribute in assembly.GetCustomAttributes())
                 {
-                    decoratorsContainer.Add(attribute.DecoratedType, attribute.DecoratorType, attribute.Order);
+                    if(attribute is DependencyDecoratorAttribute decoratorAttribute)
+                        decoratorsContainer.Add(decoratorAttribute.DecoratedType, decoratorAttribute.DecoratorType, decoratorAttribute.Order);
+                    else if(attribute is DependencyRegisterAttribute registerAttribute)
+                        typeToImplementationType.Add(registerAttribute.Type, registerAttribute.Implementation);
                 }
             }
         }

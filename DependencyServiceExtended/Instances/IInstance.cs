@@ -1,5 +1,4 @@
-﻿using System;
-using DependencyServiceExtended.InstanceResolvers;
+﻿using DependencyServiceExtended.InstanceResolvers;
 
 namespace DependencyServiceExtended.Instances
 {

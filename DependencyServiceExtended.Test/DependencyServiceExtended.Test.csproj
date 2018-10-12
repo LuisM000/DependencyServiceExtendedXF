@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Xamarin.Forms.2.5.1.527436\build\netstandard1.0\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.2.5.1.527436\build\netstandard1.0\Xamarin.Forms.props')" />
   <Import Project="..\packages\xunit.core.2.4.0\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.4.0\build\xunit.core.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -62,15 +61,6 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Forms.2.5.1.527436\lib\netstandard1.0\Xamarin.Forms.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Forms.2.5.1.527436\lib\netstandard1.0\Xamarin.Forms.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Forms.2.5.1.527436\lib\netstandard1.0\Xamarin.Forms.Xaml.dll</HintPath>
-    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.2\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
@@ -98,7 +88,6 @@
     <Compile Include="DecoratorWithAttributeShould.cs" />
     <Compile Include="DependencyFetchRuleShould.cs" />
     <Compile Include="Factories\Containers.cs" />
-    <Compile Include="Mocks\MockForms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RebindableInstancesShould.cs" />
     <Compile Include="RuleShould.cs" />
@@ -106,6 +95,7 @@
     <Compile Include="Utils\IService2.cs" />
     <Compile Include="Utils\IService3.cs" />
     <Compile Include="Utils\IService4.cs" />
+    <Compile Include="Utils\IService5.cs" />
     <Compile Include="Utils\OtherService1Decorator.cs" />
     <Compile Include="Utils\Service1.cs" />
     <Compile Include="Utils\Service1Decorator.cs" />
@@ -113,9 +103,10 @@
     <Compile Include="Utils\Service3.cs" />
     <Compile Include="Utils\Service3DecoratorWithAttribute.cs" />
     <Compile Include="Utils\Service4.cs" />
+    <Compile Include="Utils\Service5WithDependencyRegisterAttribute.cs" />
     <Compile Include="Utils\ServiceDecorator4WithAttributeAndOrder2.cs" />
     <Compile Include="Utils\ServiceDecorator4WithAttributeAndOrder1.cs" />
-    <Compile Include="XamarinFormsFixture.cs" />
+    <Compile Include="ContainerFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DependencyServiceExtended\DependencyServiceExtended.csproj">
@@ -155,11 +146,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\xunit.core.2.4.0\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.4.0\build\xunit.core.props'))" />
     <Error Condition="!Exists('..\packages\xunit.core.2.4.0\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.4.0\build\xunit.core.targets'))" />
-    <Error Condition="!Exists('..\packages\Xamarin.Forms.2.5.1.527436\build\netstandard1.0\Xamarin.Forms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Forms.2.5.1.527436\build\netstandard1.0\Xamarin.Forms.props'))" />
-    <Error Condition="!Exists('..\packages\Xamarin.Forms.2.5.1.527436\build\netstandard1.0\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Forms.2.5.1.527436\build\netstandard1.0\Xamarin.Forms.targets'))" />
   </Target>
   <Import Project="..\packages\xunit.core.2.4.0\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.4.0\build\xunit.core.targets')" />
-  <Import Project="..\packages\Xamarin.Forms.2.5.1.527436\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.1.527436\build\netstandard1.0\Xamarin.Forms.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

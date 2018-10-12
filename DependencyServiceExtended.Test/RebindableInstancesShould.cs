@@ -5,7 +5,7 @@ using Xunit;
 
 namespace DependencyServiceExtended.Test
 {
-    public class RebindableInstancesShould : IClassFixture<XamarinFormsFixture>
+    public class RebindableInstancesShould : IClassFixture<ContainerFixture>
     {
         [Fact]
         public void ReturnsSameInstance()

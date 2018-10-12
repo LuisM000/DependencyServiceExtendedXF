@@ -7,7 +7,7 @@ using Xunit;
 
 namespace DependencyServiceExtended.Test
 {
-    public class DependencyFetchRuleShould : IClassFixture<XamarinFormsFixture>
+    public class DependencyFetchRuleShould : IClassFixture<ContainerFixture>
     {
         [Fact]
         public void NotThrowsExceptionIfSatisfiesDependencyFetchType()

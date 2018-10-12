@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DependencyServiceExtended.Decorator;
 using DependencyServiceExtended.Enums;
 using DependencyServiceExtended.InstanceResolvers;
 using DependencyServiceExtended.Instances;
-using Xamarin.Forms;
 
 namespace DependencyServiceExtended.InstanceContainers
 {
@@ -18,7 +14,7 @@ namespace DependencyServiceExtended.InstanceContainers
 
         public T GetOrCreate<T>(DependencyFetchType fetchType, IInstanceResolver resolver) where T : class
         {
-            var instance = GetInstance<T>(typeof(T), fetchType);
+            var instance = GetInstance(typeof(T), fetchType);
             return (T)instance?.Get(resolver);
         }
 
@@ -30,7 +26,7 @@ namespace DependencyServiceExtended.InstanceContainers
             }
         }
 
-        private IInstance<object> GetInstance<T>(Type targetType, DependencyFetchType fetchType) where T : class
+        private IInstance<object> GetInstance(Type targetType, DependencyFetchType fetchType)
         {
             var instance = instances.FirstOrDefault(i => i.Item1 == targetType && i.Item2 == fetchType)?.Item3;
             if (instance == null)

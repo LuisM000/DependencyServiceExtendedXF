@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DependencyServiceExtended.Test.Utils
+﻿namespace DependencyServiceExtended.Test.Utils
 {
     public interface IService4
     {

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace DependencyServiceExtended.Test
 {
-    public class DecoratorShould : IClassFixture<XamarinFormsFixture>
+    public class DecoratorShould : IClassFixture<ContainerFixture>
     {
         [Fact]
         public void ReturnsTypeOfLastDecoratorAdded()

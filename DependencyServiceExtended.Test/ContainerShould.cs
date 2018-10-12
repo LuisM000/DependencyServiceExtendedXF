@@ -5,7 +5,7 @@ using Xunit;
 
 namespace DependencyServiceExtended.Test
 {
-    public class ContainerShould : IClassFixture<XamarinFormsFixture>
+    public class ContainerShould : IClassFixture<ContainerFixture>
     {
         [Fact]
         public void ReturnsSameInstanceWhenUseGlobalInstance()
@@ -57,5 +57,16 @@ namespace DependencyServiceExtended.Test
             Assert.NotEqual(newInstance, globalRebindableInstance);
         }
 
+
+        [Fact]
+        public void ResolveTypesWhenAreRegisterWithDependencyAttribute()
+        {
+            var container = Containers.ContainerWithRegisteredServices();
+
+            var instance = container.Get<IService5>(DependencyFetchType.GlobalInstance);
+
+            Assert.NotNull(instance);
+            Assert.IsType<Service5WithDependencyRegisterAttribute>(instance);
+        }
     }
 }

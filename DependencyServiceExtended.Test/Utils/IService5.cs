@@ -1,6 +1,6 @@
 ﻿namespace DependencyServiceExtended.Test.Utils
 {
-    public interface IService3
+    public interface IService5
     {
     }
 }

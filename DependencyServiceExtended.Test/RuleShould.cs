@@ -7,7 +7,7 @@ using Xunit;
 
 namespace DependencyServiceExtended.Test
 {
-    public class RuleShould : IClassFixture<XamarinFormsFixture>
+    public class RuleShould : IClassFixture<ContainerFixture>
     {
         [Fact]
         public void ExecuteRuleWhenGetsAnInstanceWithRule()

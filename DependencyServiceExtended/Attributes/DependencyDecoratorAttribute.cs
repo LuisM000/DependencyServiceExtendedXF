@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DependencyServiceExtended.Attributes
 {
@@ -11,7 +7,7 @@ namespace DependencyServiceExtended.Attributes
     {
         internal Type DecoratedType { get; }
         internal Type DecoratorType { get; }
-        public int Order { get; }
+        internal int Order { get; }
 
         public DependencyDecoratorAttribute(Type decoratedType, Type decoratorType)
             :this(decoratedType, decoratorType,1)
@@ -24,6 +20,5 @@ namespace DependencyServiceExtended.Attributes
             this.DecoratorType = decoratorType;
             Order = order;
         }
-
     }
 }
